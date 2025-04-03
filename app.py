@@ -1,4 +1,4 @@
-from flask import Flask , jsonify
+from flask import Flask , jsonify , render_template
 import psutil
 import datetime
 
@@ -29,7 +29,7 @@ def system_info():
 
 @app.route('/')
 def index():
-    return "hello,world!"
+    return render_template('mac_monitor.html')
 
 if __name__ == '__main__' :
     app.run(debug=True)

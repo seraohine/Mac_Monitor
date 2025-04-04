@@ -10,6 +10,11 @@ def get_system_info():
     disk = psutil.disk_usage('/')       #获取磁盘使用情况
     net = psutil.net_io_counters()      #获取网络带宽
     
+    processes = []
+    for proc in psutil.process_iter(['pid','name','username','cpu_percent','memory_percent','status']):
+        print(proc.info)
+        
+    
     return{
         'time':datetime.datetime.now().strftime("%H:%M:%S"),
         'cpu_percent':psutil.cpu_percent(interval=1),
@@ -20,7 +25,8 @@ def get_system_info():
         'disk_used':disk.used,
         'disk_percent':disk.percent,    
         'network_sent':net.bytes_sent,
-        'network_recv':net.bytes_recv
+        'network_recv':net.bytes_recv,
+        'processes': processes
     }
     
 @app.route('/system_info')

@@ -10,10 +10,19 @@ def get_system_info():
     disk = psutil.disk_usage('/')       #获取磁盘使用情况
     net = psutil.net_io_counters()      #获取网络带宽
     
-    processes = []
+    processes = []                      #获取进程信息
     for proc in psutil.process_iter(['pid','name','username','cpu_percent','memory_percent','status']):
-        print(proc.info)
-        
+        try:
+            processes.append({
+                'pid':proc.info['pid'],
+                'name':proc.info['name'],
+                'user':proc.info['username'],
+                'cpu':proc.info['cpu_percent'],
+                'memory':proc.info['memory_percent'],
+                'status':proc.info['status']
+            })
+        except (psutil.NoSuchProcess,psutil.AccessDenied,psutil.ZombieProcess):
+            pass
     
     return{
         'time':datetime.datetime.now().strftime("%H:%M:%S"),

@@ -1,43 +1,72 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>系统资源监控</title>
+    <title>Activity Monitor</title>
 </head>
-<body>
-    <h1>系统资源监控</h1>
-
-    <!-- 资源信息部分 -->
-    <div>
-        <h3>CPU 使用率: <span id="cpu-percent">0%</span></h3>
-        <h3>内存使用率: <span id="memory-percent">0%</span></h3>
-        <h3>磁盘使用率: <span id="disk-percent">0%</span></h3>
-        <h3>网络流量: <span id="network-usage">0 KB/s</span></h3>
+<div class="terminal">
+    <div class="terminal-header">
+        <div class="terminal-title">terminal_monitor</div>
+        </div>
     </div>
 
-    <!-- 进程列表 -->
-    <table border="1">
-        <thead>
-            <tr>
-                <th>PID</th>
-                <th>进程名称</th>
-                <th>用户</th>
-                <th>状态</th>
-                <th>CPU %</th>
-                <th>内存 %</th>
-            </tr>
-        </thead>
-        <tbody id="process-list">
-            <!-- 进程数据会由 JavaScript 动态填充 -->
-        </tbody>
-    </table>
+<style>
+    :root {
+        --terminal-bg: #1E1E1E;
+        --terminal-text: #F0F0F0;
+        --terminal-green: #4AF626;
+        --terminal-yellow: #F6F64A;
+        --terminal-red: #F64A4A;
+        --terminal-blue: #4A9FF6;
+        --terminal-cyan: #4AF6E6;
+        --terminal-purple: #D94AF6;
+        --terminal-border: #333;
+        }
+        
+    body {
+        font-family: 'Courier New', Courier, monospace;
+        margin: 0;
+        padding: 0;
+        background-color: var(--terminal-bg);
+        color: var(--terminal-text);
+        line-height: 1.4;
+        }
+        
+    .terminal {
+        width: 900px;
+        margin: 20px auto;
+        background-color: var(--terminal-bg);
+        border: 1px solid var(--terminal-border);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        }
+        
+    .terminal-header {
+        padding: 8px 12px;
+        background-color: #2D2D2D;
+        border-bottom: 1px solid var(--terminal-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        }
+        
+    .terminal-title {
+        font-weight: bold;
+        color: var(--terminal-text);
+        }
+        
+    .terminal-body {
+        padding: 15px;
+        font-size: 14px;
+        }
+    </style>
 
-    <!-- 更新时间 -->
-    <p>更新时间: <span id="update-time">--:--:--</span></p>
-
-    <script>
-        // 这里后面会加 JavaScript 代码
-    </script>
+    <div class="terminal-body">
+        
+    </div>
+</div>
+<body>
+    
 </body>
 </html>

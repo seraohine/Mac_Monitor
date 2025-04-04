@@ -7,9 +7,9 @@ app = Flask(__name__)
 
 def get_system_info():
     # 获取系统信息
-    mem = psutil.virtual_memory()
-    disk = psutil.disk_usage('/')
-    net = psutil.net_io_counters()
+    mem = psutil.virtual_memory()       #获取内存信息
+    disk = psutil.disk_usage('/')       #获取磁盘信息
+    net = psutil.net_io_counters()      #获取网络带宽
     
     # 获取进程信息
     processes = []

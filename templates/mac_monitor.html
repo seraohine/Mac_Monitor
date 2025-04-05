@@ -60,10 +60,63 @@
         padding: 15px;
         font-size: 14px;
         }
+
+     .stats-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 15px;
+        }
+
+    .stat-card {
+        background-color: #2A2A2A;
+        border: 1px solid var(--terminal-border);
+        padding: 10px;
+        font-family: 'Courier New', Courier, monospace;
+        }
+    .stat-title{
+        color: var(--terminal-cyan);
+        margin-bottom:5px;
+        font-size:12px;
+    }
+    .stat-value {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .cpu-value { color: var(--terminal-green); }
+
+    .memory-value { color: var(--terminal-blue); }
+
+    .disk-value { color: var(--terminal-yellow); }
+
+    .network-value { color: var(--terminal-purple); }
+
+    .progress-container {
+        margin-top: 5px;
+        height: 3px;
+        background-color: #333;
+        border-radius: 1px;
+        overflow: hidden;
+    }
+    
+    .progress-bar {
+        height: 100%;
+    }
+    
+    .cpu-progress { background-color: var(--terminal-green); }
+
+    .memory-progress { background-color: var(--terminal-blue); }
+
+    .disk-progress { background-color: var(--terminal-yellow); }
+
+    .network-progress { background-color: var(--terminal-purple); }
+
+
     </style>
 
     <div class="stats-container">
-        <div class="start-card">
+        <div class="stat-card">
             <div class = "stat-title">CPU USAGE</div>
             <div class = "stat-value cpu-value" id = "cpu-percent">0.0%</div>
             <div class = "progress-container">
@@ -75,24 +128,23 @@
             <div class = "stat-title">MEMORY</div>
             <div class = "stat-value memory-value" id="memory-percent">0.0%</div>
             <div class = "progress-container">
-                <div class = "progress-bar memory-progress" id="memory-progress" style="width:0%">
+                <div class = "progress-bar memory-progress" id="memory-progress" style="width:0%"></div>
         </div>
     </div>
 
-        <div class = "start-card">
+        <div class = "stat-card">
             <div class = "stat-title">DISK</div>
             <div class = "stat-value disk-value" id = "disk-percent">0.0%</div>
             <div class = "progress-container">
-                <div class = "progress-bar disk-progress" id ="disk-progress" style = "width:0%">
+                <div class = "progress-bar disk-progress" id ="disk-progress" style = "width:0%"></div>
         </div>
     </div>
 
         <div class = "stat-card">
             <div class = "stat-title">NETWORK</div>
             <div class = "stat-value disk-value" id = "network-percent">0.0%</div>
-            <div class = "progressp-container">
-                <div class = "progress-bar disk-progress" id ="network-progress" style = "width:0%">
-            </div>
+            <div class = "progress-container">
+                <div class = "progress-bar disk-progress" id ="network-progress" style = "width:0%"></div>
         </div>
     </div>
 

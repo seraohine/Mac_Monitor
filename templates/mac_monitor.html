@@ -112,7 +112,38 @@
 
     .network-progress { background-color: var(--terminal-purple); }
 
+    .process-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 13px;
+    }
 
+    .process-table th {
+        text-align: left;
+        padding: 5px 8px;
+        background-color: #2A2A2A;
+        color: var(--terminal-cyan);
+        border-bottom: 1px solid var(--terminal-border);
+    }
+
+    .process-table td {
+        padding: 5px 8px;
+        border-bottom: 1px solid #333;
+    }
+
+    .process-table tr:hover {
+        background-color: #2A2A2A;
+    }
+    .pid-col { width: 60px; }
+    .cpu-col, .mem-col { width: 70px; }
+    .status-col { width: 90px; }
+
+    .status-running { color: var(--terminal-green); }
+    .status-sleeping { color: var(--terminal-blue); }
+    .status-stopped { color: #AAA; }
+    .status-zombie { color: var(--terminal-red); }
+    
     </style>
 
     <div class="stats-container">
@@ -148,9 +179,22 @@
         </div>
     </div>
 
-
     <div class="terminal-body">
-        
+        <table class="process-table">
+            <thead>
+                <tr>
+                    <th class="pid-col">PID</th>
+                    <th>PROCESS</th>
+                    <th>USER</th>
+                    <th class="status-col">STATUS</th>
+                    <th class="cpu-col">%CPU</th>
+                    <th class="mem-col">%MEM</th>
+                </tr>
+            </thead>
+            <tbody id="process-list">
+                <!-- 进程列表将通过JavaScript动态填充 -->
+            </tbody>
+        </table>
     </div>
 </div>
 <body>

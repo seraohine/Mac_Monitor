@@ -143,7 +143,35 @@
     .status-sleeping { color: var(--terminal-blue); }
     .status-stopped { color: #AAA; }
     .status-zombie { color: var(--terminal-red); }
+
+    .update-time {
+        font-size: 11px;
+        color: #777;
+        text-align: right;
+        margin-top: 10px;
+        font-style: italic;
+    }
     
+    .terminal-prompt {
+        color: var(--terminal-green);
+        margin-top: 10px;
+    }
+    
+    .terminal-cursor {
+        display: inline-block;
+        width: 8px;
+        height: 14px;
+        background-color: var(--terminal-green);
+        animation: blink 1s step-end infinite;
+        vertical-align: middle;
+        margin-left: 2px;
+    }
+    
+    @keyframes blink {
+        from, to { opacity: 1; }
+        50% { opacity: 0; }
+    }
+
     </style>
 
     <div class="stats-container">
@@ -195,8 +223,13 @@
                 <!-- 进程列表将通过JavaScript动态填充 -->
             </tbody>
         </table>
+        <div class="update-time" id="update-time">Last updated: --:--:--</div>
+        <div class="terminal-prompt">
+        $ <span class="terminal-cursor"></span>
+        </div>
     </div>
 </div>
+
 <body>
     
 </body>

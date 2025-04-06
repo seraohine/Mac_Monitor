@@ -238,6 +238,8 @@
                         `;
                     process_list.appendChild(row); 
                     });
+                    //时间
+                    document.getElementById('update-time').textContent = `Last updated:${data.time}`;
                 })
                 .catch(error => {
                     console.error('Error fetching system info:', error);

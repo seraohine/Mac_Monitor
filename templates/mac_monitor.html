@@ -216,15 +216,28 @@
                     document.getElementById('disk-progress').style.width = data.disk_percent + '%';
 
                     //网络带宽
-                    const networkspeed = (data.network_sent - lastNetworkSent + data.network_recv - lastNetworkRecv) / 1024;
+                    const network_speed = (data.network_sent - lastNetworkSent + data.network_recv - lastNetworkRecv) / 1024;
                     lastNetworkRecv = data.network_recv;
                     lastNetworkSent = data.network_sent;
-                    document.getElementById('network-usage').textContent = networkspeed.toFixed(1) + '%';
-                    document.getElementById('network-progress').style.width = Math.min(networkspeed , 100) + '%'; //防止进度条越界
+                    document.getElementById('network-usage').textContent = network_speed.toFixed(1) + '%';
+                    document.getElementById('network-progress').style.width = Math.min(network_speed , 100) + '%'; //防止进度条越界
 
                     //进程列表
-                    
-                    
+                    const process_list = document.getElementById('process-list');
+                    process_list.innerHTML = '';
+
+                    data.processes.forEach(proc =>{
+                        const row = document.createElement('tr');
+                        row.innerHTML =`
+                            <td>${proc.pid}</td>         
+                            <td>${proc.name}</td>     
+                            <td>${proc.user}</td>  
+                            <td class="${getStatusClass(proc.status)}">${proc.status.toUpperCase()}</td> 
+                            <td>${proc.cpu.toFixed(1)}</td> 
+                            <td>${proc.memory.toFixed(1)}</td>
+                        `;
+                    process_list.appendChild(row); 
+                    });
                 })
                 .catch(error => {
                     console.error('Error fetching system info:', error);
@@ -291,7 +304,7 @@
                     </tr>
                 </thead>
                 <tbody id="process-list">
-                    <!-- Process list will be populated by JavaScript -->
+                    <!-- 通过processList.appendChild(row)获取 -->
                 </tbody>
             </table>
             

@@ -197,14 +197,34 @@
         function updateSystemInfo() {
             fetch('/api/system_info')
                 .then(response =>{
-                    console.log('11111',response.status);
+                    //console.log('11111',response.status);
                     return response.json();
                 })
                 .then(data => {
-                    console.log('1111111',data);
+
+                    //cpu卡片
+                    //console.log('1111111',data);
                     document.getElementById('cpu-percent').textContent = data.cpu_percent.toFixed(1) + '%';
                     document.getElementById('cpu-progress').style.width = data.cpu_percent + '%';
-                
+                    
+                    //内存卡片
+                    document.getElementById('memory-percent').textContent = data.memory_percent.toFixed(1) + '%';
+                    document.getElementById('memory-progress').style.width = data.memory_percent + '%';                    
+                    
+                    //磁盘卡片
+                    document.getElementById('disk-percent').textContent = data.disk_percent.toFixed(1) + '%';
+                    document.getElementById('disk-progress').style.width = data.disk_percent + '%';
+
+                    //网络带宽
+                    const networkspeed = (data.network_sent - lastNetworkSent + data.network_recv - lastNetworkRecv) / 1024;
+                    lastNetworkRecv = data.network_recv;
+                    lastNetworkSent = data.network_sent;
+                    document.getElementById('network-usage').textContent = networkspeed.toFixed(1) + '%';
+                    document.getElementById('network-progress').style.width = Math.min(networkspeed , 100) + '%'; //防止进度条越界
+
+                    //进程列表
+                    
+                    
                 })
                 .catch(error => {
                     console.error('Error fetching system info:', error);

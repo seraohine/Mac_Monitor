@@ -1,8 +1,6 @@
 from flask import Flask, render_template, jsonify
 import psutil
 import datetime
-from collections import defaultdict
-import os
 
 app = Flask(__name__)
 

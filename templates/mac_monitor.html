@@ -3,234 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activity Monitor</title>
-</head>
-<div class="terminal">
-    <div class="terminal-header">
-        <div class="terminal-title">terminal_monitor</div>
-        </div>
-    </div>
-
-<style>
-    :root {
-        --terminal-bg: #1E1E1E;
-        --terminal-text: #F0F0F0;
-        --terminal-green: #4AF626;
-        --terminal-yellow: #F6F64A;
-        --terminal-red: #F64A4A;
-        --terminal-blue: #4A9FF6;
-        --terminal-cyan: #4AF6E6;
-        --terminal-purple: #D94AF6;
-        --terminal-border: #333;
+    <title>Terminal Activity Monitor</title>
+    <style>
+        :root {
+            --terminal-bg: #1E1E1E;
+            --terminal-text: #F0F0F0;
+            --terminal-green: #4AF626;
+            --terminal-yellow: #F6F64A;
+            --terminal-red: #F64A4A;
+            --terminal-blue: #4A9FF6;
+            --terminal-cyan: #4AF6E6;
+            --terminal-purple: #D94AF6;
+            --terminal-border: #333;
         }
         
-    body {
-        font-family: 'Courier New', Courier, monospace;
-        margin: 0;
-        padding: 0;
-        background-color: var(--terminal-bg);
-        color: var(--terminal-text);
-        line-height: 1.4;
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            background-color: var(--terminal-bg);
+            color: var(--terminal-text);
+            line-height: 1.4;
         }
         
-    .terminal {
-        width: 900px;
-        margin: 20px auto;
-        background-color: var(--terminal-bg);
-        border: 1px solid var(--terminal-border);
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        overflow: hidden;
+        .terminal {
+            width: 900px;
+            margin: 20px auto;
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--terminal-border);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
         }
         
-    .terminal-header {
-        padding: 8px 12px;
-        background-color: #2D2D2D;
-        border-bottom: 1px solid var(--terminal-border);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        .terminal-header {
+            padding: 8px 12px;
+            background-color: #2D2D2D;
+            border-bottom: 1px solid var(--terminal-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-    .terminal-title {
-        font-weight: bold;
-        color: var(--terminal-text);
+        .terminal-title {
+            font-weight: bold;
+            color: var(--terminal-text);
         }
         
-    .terminal-body {
-        padding: 15px;
-        font-size: 14px;
+        
+        .terminal-btn:hover {
+            opacity: 1;
         }
-
-     .stats-container {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        margin-bottom: 15px;
+        
+        .close { background-color: var(--terminal-red); }
+        .minimize { background-color: var(--terminal-yellow); }
+        .maximize { background-color: var(--terminal-green); }
+        
+        .terminal-body {
+            padding: 15px;
+            font-size: 14px;
         }
-
-    .stat-card {
-        background-color: #2A2A2A;
-        border: 1px solid var(--terminal-border);
-        padding: 10px;
-        font-family: 'Courier New', Courier, monospace;
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
         }
-    .stat-title{
-        color: var(--terminal-cyan);
-        margin-bottom:5px;
-        font-size:12px;
-    }
-    .stat-value {
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .cpu-value { color: var(--terminal-green); }
-
-    .memory-value { color: var(--terminal-blue); }
-
-    .disk-value { color: var(--terminal-yellow); }
-
-    .network-value { color: var(--terminal-purple); }
-
-    .progress-container {
-        margin-top: 5px;
-        height: 3px;
-        background-color: #333;
-        border-radius: 1px;
-        overflow: hidden;
-    }
-    
-    .progress-bar {
-        height: 100%;
-    }
-    
-    .cpu-progress { background-color: var(--terminal-green); }
-
-    .memory-progress { background-color: var(--terminal-blue); }
-
-    .disk-progress { background-color: var(--terminal-yellow); }
-
-    .network-progress { background-color: var(--terminal-purple); }
-
-    .process-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-        font-size: 13px;
-    }
-
-    .process-table th {
-        text-align: left;
-        padding: 5px 8px;
-        background-color: #2A2A2A;
-        color: var(--terminal-cyan);
-        border-bottom: 1px solid var(--terminal-border);
-    }
-
-    .process-table td {
-        padding: 5px 8px;
-        border-bottom: 1px solid #333;
-    }
-
-    .process-table tr:hover {
-        background-color: #2A2A2A;
-    }
-    .pid-col { width: 60px; }
-    .cpu-col, .mem-col { width: 70px; }
-    .status-col { width: 90px; }
-
-    .status-running { color: var(--terminal-green); }
-    .status-sleeping { color: var(--terminal-blue); }
-    .status-stopped { color: #AAA; }
-    .status-zombie { color: var(--terminal-red); }
-
-    .update-time {
-        font-size: 11px;
-        color: #777;
-        text-align: right;
-        margin-top: 10px;
-        font-style: italic;
-    }
-    
-    .terminal-prompt {
-        color: var(--terminal-green);
-        margin-top: 10px;
-    }
-    
-    .terminal-cursor {
-        display: inline-block;
-        width: 8px;
-        height: 14px;
-        background-color: var(--terminal-green);
-        animation: blink 1s step-end infinite;
-        vertical-align: middle;
-        margin-left: 2px;
-    }
-    
-    @keyframes blink {
-        from, to { opacity: 1; }
-        50% { opacity: 0; }
-    }
-
+        
+        .stat-card {
+            background-color: #2A2A2A;
+            border: 1px solid var(--terminal-border);
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .stat-title {
+            color: var(--terminal-cyan);
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .cpu-value { color: var(--terminal-green); }
+        .memory-value { color: var(--terminal-blue); }
+        .disk-value { color: var(--terminal-yellow); }
+        .network-value { color: var(--terminal-purple); }
+        
+        .progress-container {
+            margin-top: 5px;
+            height: 3px;
+            background-color: #333;
+            border-radius: 1px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+        }
+        
+        .cpu-progress { background-color: var(--terminal-green); }
+        .memory-progress { background-color: var(--terminal-blue); }
+        .disk-progress { background-color: var(--terminal-yellow); }
+        .network-progress { background-color: var(--terminal-purple); }
+        
+        .process-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        
+        .process-table th {
+            text-align: left;
+            padding: 5px 8px;
+            background-color: #2A2A2A;
+            color: var(--terminal-cyan);
+            border-bottom: 1px solid var(--terminal-border);
+        }
+        
+        .process-table td {
+            padding: 5px 8px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .process-table tr:hover {
+            background-color: #2A2A2A;
+        }
+        
+        .pid-col { width: 60px; }
+        .cpu-col, .mem-col { width: 70px; }
+        .status-col { width: 90px; }
+        
+        .status-running { color: var(--terminal-green); }
+        .status-sleeping { color: var(--terminal-blue); }
+        .status-stopped { color: #AAA; }
+        .status-zombie { color: var(--terminal-red); }
+        
+        .update-time {
+            font-size: 11px;
+            color: #777;
+            text-align: right;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .terminal-prompt {
+            color: var(--terminal-green);
+            margin-top: 10px;
+        }
+        
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background-color: var(--terminal-green);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+        
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
     </style>
 
-    <div class="stats-container">
-        <div class="stat-card">
-            <div class = "stat-title">CPU USAGE</div>
-            <div class = "stat-value cpu-value" id = "cpu-percent">0.0%</div>
-            <div class = "progress-container">
-                <div class = "progress-bar cpu-progress" id = "cpu-progress" style="width:0%"></div> 
+    <script>
+        let lastNetworkSent = 0;
+        let lastNetworkRecv = 0;
+        
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        function getStatusClass(status) {
+            switch(status.toLowerCase()) {
+                case 'running': return 'status-running';
+                case 'sleeping': return 'status-sleeping';
+                case 'stopped': return 'status-stopped';
+                case 'zombie': return 'status-zombie';
+                default: return '';
+            }
+        }
+        
+        function updateSystemInfo() {
+            fetch('/api/system_info')
+                .then(response =>{
+                    console.log('11111',response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('1111111',data);
+                    document.getElementById('cpu-percent').textContent = data.cpu_percent.toFixed(1) + '%';
+                    document.getElementById('cpu-progress').style.width = data.cpu_percent + '%';
+                
+                })
+                .catch(error => {
+                    console.error('Error fetching system info:', error);
+                });
+        }
+        
+        // 初始加载
+        updateSystemInfo();
+        
+        // 每2秒更新一次
+        setInterval(updateSystemInfo, 2000);
+      </script>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-title">terminal_monitor.sh</div>
+        </div>
+        
+        <div class="terminal-body">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-title">CPU USAGE</div>
+                    <div class="stat-value cpu-value" id="cpu-percent">0.0%</div>
+                    <div class="progress-container">
+                        <div class="progress-bar cpu-progress" id="cpu-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-title">MEMORY</div>
+                    <div class="stat-value memory-value" id="memory-percent">0.0%</div>
+                    <div class="progress-container">
+                        <div class="progress-bar memory-progress" id="memory-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-title">DISK</div>
+                    <div class="stat-value disk-value" id="disk-percent">0.0%</div>
+                    <div class="progress-container">
+                        <div class="progress-bar disk-progress" id="disk-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-title">NETWORK</div>
+                    <div class="stat-value network-value" id="network-usage">0.0 KB/s</div>
+                    <div class="progress-container">
+                        <div class="progress-bar network-progress" id="network-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <table class="process-table">
+                <thead>
+                    <tr>
+                        <th class="pid-col">PID</th>
+                        <th>PROCESS</th>
+                        <th>USER</th>
+                        <th class="status-col">STATUS</th>
+                        <th class="cpu-col">%CPU</th>
+                        <th class="mem-col">%MEM</th>
+                    </tr>
+                </thead>
+                <tbody id="process-list">
+                    <!-- Process list will be populated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <div class="update-time" id="update-time">Last updated: --:--:--</div>
+            
+            <div class="terminal-prompt">
+                $ <span class="terminal-cursor"></span>
             </div>
         </div>
-
-         <div class = "stat-card">
-            <div class = "stat-title">MEMORY</div>
-            <div class = "stat-value memory-value" id="memory-percent">0.0%</div>
-            <div class = "progress-container">
-                <div class = "progress-bar memory-progress" id="memory-progress" style="width:0%"></div>
-        </div>
     </div>
-
-        <div class = "stat-card">
-            <div class = "stat-title">DISK</div>
-            <div class = "stat-value disk-value" id = "disk-percent">0.0%</div>
-            <div class = "progress-container">
-                <div class = "progress-bar disk-progress" id ="disk-progress" style = "width:0%"></div>
-        </div>
-    </div>
-
-        <div class = "stat-card">
-            <div class = "stat-title">NETWORK</div>
-            <div class = "stat-value disk-value" id = "network-percent">0.0%</div>
-            <div class = "progress-container">
-                <div class = "progress-bar disk-progress" id ="network-progress" style = "width:0%"></div>
-        </div>
-    </div>
-
-    <div class="terminal-body">
-        <table class="process-table">
-            <thead>
-                <tr>
-                    <th class="pid-col">PID</th>
-                    <th>PROCESS</th>
-                    <th>USER</th>
-                    <th class="status-col">STATUS</th>
-                    <th class="cpu-col">%CPU</th>
-                    <th class="mem-col">%MEM</th>
-                </tr>
-            </thead>
-            <tbody id="process-list">
-                <!-- 进程列表将通过JavaScript动态填充 -->
-            </tbody>
-        </table>
-        <div class="update-time" id="update-time">Last updated: --:--:--</div>
-        <div class="terminal-prompt">
-        $ <span class="terminal-cursor"></span>
-        </div>
-    </div>
-</div>
-
-<body>
-    
+ 
 </body>
 </html>

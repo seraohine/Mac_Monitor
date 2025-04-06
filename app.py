@@ -2,14 +2,16 @@ from flask import Flask, render_template, jsonify
 import psutil
 import datetime
 from collections import defaultdict
+import os
 
 app = Flask(__name__)
 
+
 def get_system_info():
-    # 获取系统信息
-    mem = psutil.virtual_memory()       #获取内存信息
-    disk = psutil.disk_usage('/')       #获取磁盘信息
-    net = psutil.net_io_counters()      #获取网络带宽
+    
+    mem = psutil.virtual_memory()   #获取内存信息
+    disk = psutil.disk_usage('/')   #获取磁盘信息
+    net = psutil.net_io_counters()  #获取网络带宽
     
     # 获取进程信息
     processes = []
@@ -19,38 +21,36 @@ def get_system_info():
             if info['cpu_percent'] is None or info['memory_percent'] is None:
                 continue
             processes.append({
-                'pid': proc.info['pid'],
-                'name': proc.info['name'],
-                'user': proc.info['username'],
-                'cpu': proc.info['cpu_percent'],
-                'memory': proc.info['memory_percent'],
-                'status': proc.info['status']
+                'pid': info['pid'],
+                'name': info['name'],
+                'user': info['username'] or 'SYSTEM',
+                'cpu': info['cpu_percent'],
+                'memory': info['memory_percent'],
+                'status': info['status']
             })
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-            pass
+            continue
+    
+    # 按CPU使用率排序进程
+    processes.sort(key=lambda p: p['cpu'], reverse=True)
     
     return {
         'time': datetime.datetime.now().strftime("%H:%M:%S"),
         'cpu_percent': psutil.cpu_percent(interval=1),
-        'cpu_count': psutil.cpu_count(),
-        'memory_total': mem.total,
-        'memory_used': mem.used,
         'memory_percent': mem.percent,
-        'disk_total': disk.total,
-        'disk_used': disk.used,
         'disk_percent': disk.percent,
         'network_sent': net.bytes_sent,
         'network_recv': net.bytes_recv,
-        'processes': processes
+        'processes': processes[:50]  # 只返回前50个进程
     }
 
 @app.route('/')
 def index():
-    return render_template('mac_monitor.html')
+    return render_template('mac_monitor.html')  
 
-@app.route('/system_info')
+@app.route('/api/system_info')
 def system_info():
     return jsonify(get_system_info())
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
